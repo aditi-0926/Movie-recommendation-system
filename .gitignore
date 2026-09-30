@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# Models (regenerate via scripts/train_models.py, or remove this line to commit them)
+models/*.pkl
+models/*.npz
+!models/.gitkeep
+
+# OS
+.DS_Store
+
+# Streamlit
+.streamlit/secrets.toml

@@ -19,8 +19,18 @@ from pymongo.server_api import ServerApi
 
 load_dotenv()
 
-MONGO_URI = os.getenv("MONGO_URI")
-MONGO_DB_NAME = os.getenv("MONGO_DB_NAME", "movie_recommender")
+def _get_config(key: str, default: str = None):
+    # Prefer Streamlit Cloud secrets if available, fall back to .env/os.environ for local dev
+    try:
+        import streamlit as st
+        if key in st.secrets:
+            return st.secrets[key]
+    except Exception:
+        pass
+    return os.getenv(key, default)
+
+MONGO_URI = _get_config("MONGO_URI")
+MONGO_DB_NAME = _get_config("MONGO_DB_NAME", "movie_recommender")
 
 
 @lru_cache(maxsize=1)

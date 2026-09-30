@@ -48,10 +48,22 @@ def get_connection_status():
         return False, str(e)
 
 
-@st.cache_resource(show_spinner="Loading recommendation models...")
+@st.cache_resource(show_spinner="Preparing recommendation models (first run may take a minute)...")
 def get_recommender():
-    return load_hybrid_recommender()
+    models_dir = os.path.join(ROOT, "models")
+    content_path = os.path.join(models_dir, "content_model.pkl")
+    collab_path = os.path.join(models_dir, "collaborative_model.pkl")
 
+    if not (os.path.exists(content_path) and os.path.exists(collab_path)):
+        from data_preprocessing import load_and_clean
+        from content_model import ContentBasedRecommender
+        from collaborative_model import CollaborativeRecommender
+
+        data = load_and_clean()
+        ContentBasedRecommender().fit(data["movies"]).save()
+        CollaborativeRecommender(n_factors=50).fit(data["ratings"]).save()
+
+    return load_hybrid_recommender()
 
 # ---------------------------------------------------------------------------
 # Auth

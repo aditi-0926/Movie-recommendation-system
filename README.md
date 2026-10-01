@@ -1,4 +1,4 @@
-# 🎬 Personalized Movie Recommendation & User Preference Analytics Platform
+# Personalized Movie Recommendation & User Preference Analytics Platform
 
 A full-stack data science project combining **content-based filtering**,
 **collaborative filtering (matrix factorization)**, a **hybrid recommender**,
